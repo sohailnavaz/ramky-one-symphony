@@ -15,6 +15,7 @@
 	<link rel="preconnect" href="http://stackpath.bootstrapcdn.com/" crossorigin>
 	<!--<link rel="preload" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"  as="style" crossorigin="anonymous" />-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -609,8 +610,9 @@
 								</p>
 								<p class="rera-no mb-center" style="padding-top: 0">RERA No : <span class="head">
 										P01100003145</span> </span></p>
+										
 
-								<form action="send-mail.php" method="POST" role="form"
+								<form onsubmit ="submitForm(this)" role="form"
 									class="needs-validation mob-show-form">
 									<div class="col-md-12 mt-3 mb-3">
 										<input type="text" class="form-control rk-input" name="name" placeholder="Name"
@@ -638,6 +640,11 @@
 											style="animation: Gradient 3s ease infinite, rocking 2s infinite; animation-delay: 2s; color: #fff;"
 											name="rk_formBtn" type="submit">Register Now</button></center>
 								</form>
+								<script>
+									function submitForm(form){
+										console.log(form);
+									}
+								</script>
 
 							</div>
 						</div>
@@ -1443,7 +1450,7 @@
 			</div>
 			<div class="enq-form p-1 text-center">
 				<h4 class="enq-heading font-weight-bold">Pre-Register here for Best Offers</h4>
-				<form action="send-mail.php" method="POST" role="form" class="needs-validation">
+				<form onsubmit ="submitForm(this)" class="needs-validation">
 					<div class="col-md-12 mt-3 mb-3">
 						<input type="text" class="form-control rk-input" name="name" placeholder="Name"
 							autocomplete="off" required>
@@ -1517,7 +1524,7 @@
 								<h4> Register here and Avail the <span style="font-weight:500;color:#D01127;">BEST
 										OFFERS!</span> </h4>
 							</div>
-							<form class="needs-validation" action="send-mail.php" method="POST" role="form">
+							<form class="needs-validation" onsubmit ="submitForm(this)" role="form">
 								<div class="col-md-12 mt-3 mb-4">
 									<input type="text" class="form-control rk-input" placeholder="Name" name="name"
 										autocomplete="off" required>
@@ -1601,7 +1608,7 @@
 								<h4> Register here and Avail the <span style="font-weight:500;color:#004274;">BEST
 										OFFERS!</span> </h4>
 							</div>
-							<form class="needs-validation" action="send-mail.php" method="POST" role="form">
+							<form class="needs-validation" onsubmit ="submitForm(this)" role="form">
 								<div class="col-md-12 mt-3 mb-4">
 									<input type="text" class="form-control rk-input" placeholder="Name" name="name"
 										autocomplete="off" required>
@@ -1685,7 +1692,7 @@
 								<h4> Register here and Avail the <span style="font-weight:500;color:#D01127;">BEST
 										OFFERS!</span> </h4>
 							</div>
-							<form class="needs-validation" action="send-mail.php" method="POST" role="form">
+							<form class="needs-validation" onsubmit ="submitForm(this)" role="form">
 								<div class="col-md-12 mt-3 mb-4">
 									<input type="text" class="form-control rk-input" placeholder="Name" name="name"
 										autocomplete="off" required>
@@ -1772,6 +1779,7 @@
 
 	<script>
 		function setCookie(cname, cvalue) {
+			console.log(cname, cvalue);
 			var d = new Date();
 			d.setTime(d.getTime() + (60 * 1000));
 			var expires = "expires=" + d.toUTCString();
@@ -1784,6 +1792,37 @@
 	<!-- begin ClickGUARD Tracking Code -->
 	<script defer type="application/javascript" src="https://io.clickguard.com/s/cHJvdGVjdG9y/QTonNIpH"></script>
 	<script defer type="application/javascript">
+		const params = new Proxy(new URLSearchParams(window.location.search), {
+  get: (searchParams, prop) => searchParams.get(prop),
+});
+// Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
+console.log(params.name, params.phone,params.email);
+if(params.name && params.phone){
+	var data = JSON.stringify({
+  "email": "jaswanthtata@gmail.com",
+  "subject": "Request for info",
+  "text": "this is text1",
+  "html": `
+		name: ${params.name}\n
+		phone: ${params.phone}\n
+		email: ${params.email}\n
+  `
+});
+	axios.post('https://api.securisk.in/api/v2/thridPartyEmail',{
+		"email": "navazshaik.sn@gmail.com",
+  "subject": "Request for info",
+  "text": "this is text1",
+  "html": `
+		name: ${params.name}<br>
+		phone: ${params.phone}<br>
+		email: ${params.email}
+  `
+	})	
+}
+
+
+
+
 		(function () {
 			window.cg_convert = function (x, y) {
 				if (window._cg_convert) window._cg_convert(x || null, y || null);
